@@ -161,6 +161,21 @@ app.post("/createFoodItem",async (req, res)=>{
   })
 })
 
+
+// http://localhost:5000/foodItemByCategory?category=pizza
+app.get("/foodItemsByCategory", async(req,res)=>{
+   const {category} = req.query;
+
+   const foodItems = await FoodItem.find({
+     category: category
+   })
+   res.json({
+    success: true,
+    message:"Food Items fetched successfully...",
+    data:foodItems
+   })
+})
+
 app.listen(5000, () => {
   console.log(`Server is running on port ${PORT}`);
 });
