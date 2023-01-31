@@ -167,13 +167,27 @@ app.get("/foodItemsByCategory", async(req,res)=>{
    const {category} = req.query;
 
    const foodItems = await FoodItem.find({
-     category: category
+    category: {$regex:category, $options: 'i'}
    })
    res.json({
     success: true,
     message:"Food Items fetched successfully...",
     data:foodItems
    })
+})
+
+// http://localhost:5000/foodItem?title=pizza
+app.get("/foodItems", async(req,res)=>{
+  const {title} = req.query;
+
+  const foodItems = await FoodItem.find({
+    title: {$regex: title, $options: 'i'}
+  })
+  res.json({
+   success: true,
+   message:"Food Items fetched successfully...",
+   data:foodItems
+  })
 })
 
 app.listen(5000, () => {
