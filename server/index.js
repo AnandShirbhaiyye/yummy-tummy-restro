@@ -5,6 +5,7 @@ dotenv.config();
 import User from "./models/User.js";
 import FoodItem from "./models/FoodItem.js";
 import Table from "./models/Table.js";
+import Order from "./models/Order.js";
 
 const app = express();
 app.use(express.json());
@@ -292,6 +293,19 @@ app.post("/orderFoodItems", async(req,res)=>{
     success: true,
     message:"Order placed Successfully...", 
     data: savedOrder
+  })
+})
+
+app.get("/order", async(req,res)=>{
+  const {orderId} = req.query;
+
+  const order = await Order.findOne({orderId: orderId})
+
+  res.json({
+    success: true,
+    message: "Order fetched Successfully...",
+    data: order
+
   })
 })
 
