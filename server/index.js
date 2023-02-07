@@ -269,6 +269,31 @@ app.get("/availableTables", async(req,res)=>{
    })
 })
 
+app.post("/orderFoodItems", async(req,res)=>{
+  const {userId, tableNumber, items} = req.body;
+ 
+  // // generate 5 digit unique order id with current hours and minutes
+  // const orderId ="ord" + new Date().getHours() + "" +new Date().getMinutes() + "" + Math.floor(1000 + Math.random() * 9000);
+
+  const totalOrders = await Order.countDocuments();
+
+  const orderId = totalOrders + 1; 
+
+  const order = new Order({
+    orderId: orderId,
+    userId: userId,
+    tableNumber: tableNumber,
+    items: items
+  })
+
+  const savedOrder = await order.save();
+
+  res.json({
+    success: true,
+    message:"Order placed Successfully...", 
+    data: savedOrder
+  })
+})
 
 
 app.listen(5000, () => {
