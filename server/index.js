@@ -163,7 +163,6 @@ app.post("/createFoodItem",async (req, res)=>{
   })
 })
 
-
 // http://localhost:5000/foodItemByCategory?category=pizza
 app.get("/foodItemsByCategory", async(req,res)=>{
    const {category} = req.query;
