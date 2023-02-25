@@ -1,7 +1,35 @@
-import React from "react";
+import React, {useState}from "react";
 import "./Signup.css";
+import axios from "axios";
 
-function Signup() {
+  function Signup() {
+  const [name, setName]= useState("");
+  const[email, setEmail] = useState("");
+  const[phone, setPhone] = useState("");
+  const[password, setPassword] = useState("");
+  const[role, setRole] = useState("user")
+
+  async function signupUser(){
+    const response = await axios.post('/signup',{
+      name:name,
+      email:email,
+      phone:phone,
+      password:password,
+      role:role
+    })
+    console.log(response.data)
+    if(response.data.success){
+      alert(response.data.message)
+      window.location.href='/login'
+    }
+     else{
+      alert(response.data.message);
+      setName('')
+      setEmail('')
+      setPhone('')
+      setPassword('')
+     }
+  }
   return (
     <>
       <div className="container mt-3">
@@ -18,6 +46,8 @@ function Signup() {
                       className="form-control"
                       id="fullName"
                       placeholder="FullName"
+                      value={name}
+                      onChange={(e)=>setName(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">
@@ -26,6 +56,8 @@ function Signup() {
                       className="form-control"
                       id="email"
                       placeholder="Email"
+                      value={email}
+                      onChange={(e)=>setEmail(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">
@@ -34,6 +66,8 @@ function Signup() {
                       className="form-control"
                       id="password"
                       placeholder="Password"
+                      value={password}
+                      onChange={(e)=>setPassword(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">
@@ -42,9 +76,12 @@ function Signup() {
                       className="form-control"
                       id="mobile"
                       placeholder="Mobile Number"
+                      value={phone}
+                      onChange={(e)=>setPhone(e.target.value)}
                     />
                   </div>
-                  <button type="button" className="btn btn-warning w-100"><b>Signup</b></button>
+                  <button type="button" className="btn btn-warning w-100"
+                  onClick={signupUser}><b>Signup</b></button>
                 </form>
               </div>
             </div>
